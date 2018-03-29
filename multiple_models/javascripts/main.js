@@ -1,8 +1,52 @@
-// create models for items_json with IDs
+var App = {
+  items: items_json,
+  collection: [],
+  remove: function () {
 
-// sortBy name using Underscore
+  },
+  sortItems: function() {
+    this.collection = _.sortBy(this.collection, function(model) {
+      return model.toJSON().name;
+    });
+  },
+  createTable: function() {
+    var table = $('tbody');
+    var html = this.template({items: this.collection});
+    table.append(html);
+  },
+  createItemModels: function(items) {
+    var self = this;
+    var ItemModel = Backbone.Model.extend();
 
-// render as table rows using Handlebars
+    items.forEach(function(item, index) {
+      var newItem = new ItemModel({
+        id: index + 1,
+        name: item.name,
+        quantity: item.quantity,
+      });
+      self.collection.push(newItem);
+    });
+  },
+  registerHandlebars: function () {
+    var $template = $('#items');
+    var $partial = $('#item');
+
+    Handlebars.registerPartial('item', $partial.html());
+    Handlebars.compile($partial.html());
+
+    this.template = Handlebars.compile($template.html());
+  },
+  init: function() {
+    this.registerHandlebars();
+    this.createItemModels(this.items);
+    this.sortItems();
+    this.createTable();
+  }
+}
+
+App.init();
+
+
 
 // create a click event for the delete link that calls remove()
 
