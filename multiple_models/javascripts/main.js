@@ -6,7 +6,7 @@ var App = {
       return elem.id === id;
     });
     this.collection = newCollection;
-    this.createTable();
+    this.renderTable();
   },
   sortItems: function() {
     this.collection = _.sortBy(this.collection, function(model) {
@@ -19,27 +19,45 @@ var App = {
 
     if (id) { this.remove(id); }
   },
-  createTable: function() {
+  addRow: function(e) {
+    e.preventDefault();
+    var $form = $('form');
+    var newItem = {
+      name: $form.find('input[name=name]').val(),
+      quantity: $form.find('input[name=quantity]').val(),
+    };
+    this.collection.push(this.createModel(newItem, this.collection.length));
+    this.renderTable();
+    $('form').get(0).reset();
+  },
+  renderTable: function() {
     var table = $('tbody');
-    var html = this.template({items: this.collection});
+    var html;
+
+    this.sortItems();
+    html = this.template({items: this.collection});
     table.empty();
     table.append(html);
   },
-  createItemModels: function(items) {
-    var self = this;
+  createModel: function(item, index) {
     var ItemModel = Backbone.Model.extend();
-
+    return new ItemModel({
+      id: index + 1,
+      name: item.name,
+      quantity: item.quantity,
+    });
+  },
+  createInitialModels: function(items) {
+    var self = this;
+    
     items.forEach(function(item, index) {
-      var newItem = new ItemModel({
-        id: index + 1,
-        name: item.name,
-        quantity: item.quantity,
-      });
+      var newItem = self.createModel(item, index);
       self.collection.push(newItem);
     });
   },
-  createEvents: function() {
+  bindEvents: function() {
     $('tbody').on('click', this.deleteRow.bind(this));
+    $('form').on('submit', this.addRow.bind(this));
   },
   registerHandlebars: function () {
     var $template = $('#items');
@@ -52,22 +70,15 @@ var App = {
   },
   init: function() {
     this.registerHandlebars();
-    this.createEvents();
-    this.createItemModels(this.items);
-    this.sortItems();
-    this.createTable();
+    this.bindEvents();
+    this.createInitialModels(this.items);
+    this.renderTable();
   }
 }
 
 App.init();
 
 
-// create a submit event for form
-
-// submit --> create new model
-//            add model to collections array
-//            render new table row
-//            reset form
 
 // create click event for the delete all link
 
