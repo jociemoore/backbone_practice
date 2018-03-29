@@ -1,17 +1,23 @@
 var App = {
   items: items_json,
   collection: [],
+  defaultSortProperty: 'name',
   remove: function (id) {
     var newCollection = _.reject(this.collection, function(elem) {
       return elem.id === id;
     });
     this.collection = newCollection;
-    this.renderTable();
+    this.renderTable(this.defaultSortProperty);
   },
-  sortItems: function() {
+  sortItems: function(prop) {
     this.collection = _.sortBy(this.collection, function(model) {
-      return model.toJSON().name;
+      return model.toJSON()[prop];
     });
+  },
+  sortByColumn: function(e) {
+    var $target = $(e.target);
+    var newSortProperty = $target.data('prop');
+    this.renderTable(newSortProperty);
   },
   deleteRow: function(e) {
     var $target = $(e.target);
@@ -31,14 +37,14 @@ var App = {
       quantity: $form.find('input[name=quantity]').val(),
     };
     this.collection.push(this.createModel(newItem, this.collection.length));
-    this.renderTable();
+    this.renderTable(this.defaultSortProperty);
     $('form').get(0).reset();
   },
-  renderTable: function() {
+  renderTable: function(sortProperty) {
     var table = $('tbody');
     var html;
 
-    this.sortItems();
+    this.sortItems(sortProperty);
     html = this.template({items: this.collection});
     table.empty();
     table.append(html);
@@ -63,6 +69,7 @@ var App = {
     $('tbody').on('click', this.deleteRow.bind(this));
     $('form').on('submit', this.addRow.bind(this));
     $('table + p').find('a').on('click', this.deleteAll.bind(this));
+    $('th').on('click', this.sortByColumn.bind(this));
   },
   registerHandlebars: function () {
     var $template = $('#items');
@@ -77,7 +84,7 @@ var App = {
     this.registerHandlebars();
     this.bindEvents();
     this.createInitialModels(this.items);
-    this.renderTable();
+    this.renderTable(this.defaultSortProperty);
   }
 }
 
@@ -85,7 +92,5 @@ App.init();
 
 
 
-
-// create click event for the table headings --> sorts and re-renders
-
 // create localStorage of collection array --> assign value to collection array on page load
+
