@@ -19,6 +19,10 @@ var App = {
 
     if (id) { this.remove(id); }
   },
+  deleteAll: function(e) {
+    this.collection = [];
+    this.renderTable();
+  },
   addRow: function(e) {
     e.preventDefault();
     var $form = $('form');
@@ -58,6 +62,7 @@ var App = {
   bindEvents: function() {
     $('tbody').on('click', this.deleteRow.bind(this));
     $('form').on('submit', this.addRow.bind(this));
+    $('table + p').find('a').on('click', this.deleteAll.bind(this));
   },
   registerHandlebars: function () {
     var $template = $('#items');
@@ -79,11 +84,6 @@ var App = {
 App.init();
 
 
-
-// create click event for the delete all link
-
-// delete all --> empty collection array
-//                re-render template
 
 
 // create click event for the table headings --> sorts and re-renders
