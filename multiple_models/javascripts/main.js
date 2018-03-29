@@ -92,5 +92,5 @@ App.init();
 
 
 
-// create localStorage of collection array --> assign value to collection array on page load
+// TODO: create localStorage of collection array
 
