@@ -1,17 +1,28 @@
 var App = {
   items: items_json,
   collection: [],
-  remove: function () {
-
+  remove: function (id) {
+    var newCollection = _.reject(this.collection, function(elem) {
+      return elem.id === id;
+    });
+    this.collection = newCollection;
+    this.createTable();
   },
   sortItems: function() {
     this.collection = _.sortBy(this.collection, function(model) {
       return model.toJSON().name;
     });
   },
+  deleteRow: function(e) {
+    var $target = $(e.target);
+    var id = $target.data('id');
+
+    if (id) { this.remove(id); }
+  },
   createTable: function() {
     var table = $('tbody');
     var html = this.template({items: this.collection});
+    table.empty();
     table.append(html);
   },
   createItemModels: function(items) {
@@ -27,6 +38,9 @@ var App = {
       self.collection.push(newItem);
     });
   },
+  createEvents: function() {
+    $('tbody').on('click', this.deleteRow.bind(this));
+  },
   registerHandlebars: function () {
     var $template = $('#items');
     var $partial = $('#item');
@@ -38,6 +52,7 @@ var App = {
   },
   init: function() {
     this.registerHandlebars();
+    this.createEvents();
     this.createItemModels(this.items);
     this.sortItems();
     this.createTable();
@@ -46,14 +61,6 @@ var App = {
 
 App.init();
 
-
-
-// create a click event for the delete link that calls remove()
-
-// remove() --> deletes the item by ID
-//              create new array w/o item using Underscore 
-//              set to collections array
-//              rerender items array
 
 // create a submit event for form
 
