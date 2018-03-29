@@ -1,5 +1,5 @@
+
 var App = {
-  items: items_json,
   collection: [],
   defaultSortProperty: 'name',
   remove: function (id) {
@@ -20,10 +20,10 @@ var App = {
     this.renderTable(newSortProperty);
   },
   deleteRow: function(e) {
+    e.preventDefault();
     var $target = $(e.target);
     var id = $target.data('id');
-
-    if (id) { this.remove(id); }
+    this.remove(id);
   },
   deleteAll: function(e) {
     this.collection = [];
@@ -36,8 +36,9 @@ var App = {
       name: $form.find('input[name=name]').val(),
       quantity: $form.find('input[name=quantity]').val(),
     };
-    this.collection.push(this.createModel(newItem, this.collection.length));
-    this.renderTable(this.defaultSortProperty);
+    var newModel = this.createModel(newItem, this.collection.length);
+    this.collection.push(newModel);
+    $('tbody').append(Handlebars.partials['item'](newModel.toJSON()));
     $('form').get(0).reset();
   },
   renderTable: function(sortProperty) {
@@ -59,14 +60,15 @@ var App = {
   },
   createInitialModels: function(items) {
     var self = this;
+    var newModel;
     
     items.forEach(function(item, index) {
-      var newItem = self.createModel(item, index);
-      self.collection.push(newItem);
+      newModel = self.createModel(item, index);
+      self.collection.push(newModel);
     });
   },
   bindEvents: function() {
-    $('tbody').on('click', this.deleteRow.bind(this));
+    $('tbody').on('click', 'a', this.deleteRow.bind(this));
     $('form').on('submit', this.addRow.bind(this));
     $('table + p').find('a').on('click', this.deleteAll.bind(this));
     $('th').on('click', this.sortByColumn.bind(this));
@@ -76,14 +78,13 @@ var App = {
     var $partial = $('#item');
 
     Handlebars.registerPartial('item', $partial.html());
-    Handlebars.compile($partial.html());
 
     this.template = Handlebars.compile($template.html());
   },
   init: function() {
     this.registerHandlebars();
     this.bindEvents();
-    this.createInitialModels(this.items);
+    this.createInitialModels(items_json);
     this.renderTable(this.defaultSortProperty);
   }
 }
