@@ -1,0 +1,24 @@
+form {
+	width: 500px;
+	margin: 200px auto;
+	padding: 20px;
+	background-color: #fff;
+}
+
+fieldset {
+	padding: 15px 20px 15px 0;
+	border: none;
+}
+
+input {
+	width:100%;
+}
+
+#modal-container {
+	position: fixed;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	left: 0;
+	background-color: rgba(0,0,0,0.2);
+}
