@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var stylus = require('stylus');
+var nib = require('nib');
 
 var app = express();
 var indexRouter = require('./routes/all');
@@ -10,6 +12,13 @@ var indexRouter = require('./routes/all');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(stylus.middleware({
+  src: path.join(__dirname, 'public'),
+  compile: function(str, p) {
+    return stylus(str).set('filename', p).use(nib());
+  },
+}));
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -54,15 +54,15 @@ h1 {
   background: #aeee00;
 }
 #items ul {
-  padding: 0 0 10px 0;
+  padding: 0 0 10px;
 }
 #items li + li {
-  clear: both;
+  clear: bot;
   padding-top: 5px;
 }
 #items li span {
-  float: right;
-  font-size: 0.9em;
+  float: righ;
+  font-size: 0.9e;
   font-weight: bold;
 }
 #items a {
