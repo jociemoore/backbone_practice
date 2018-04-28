@@ -1,4 +1,7 @@
 include _mixins
+include _cart_mock
+include _functions
+
 
 doctype html
 html
@@ -11,13 +14,18 @@ html
       h1 Products 
       #cart
         h3
-          a(href="#") Cart<span>4</span>  
+          a(href="#") 
+            | Cart
+            span= cart.reduce(cartQuantity)
         #items
           ul
-            li ActRaiser x 1<span>$50.00</span>
-            li Metroid Prime x 2<span>$21.00</span>
-            li Silent Hill 3 x 1<span>$25.00</span>
-            li <strong>Total</strong><span>$96.00</span>
+          each item in cart 
+            li 
+              | #{item.title} x #{item.quantity} 
+              span $#{format(item.price * item.quantity)}
+          li 
+            strong Total
+            span $#{format(cart.reduce(total))}
           a(href="#") Checkout
       block content
     +javascript_include_tag("cart")
