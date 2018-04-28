@@ -4,7 +4,7 @@ var router = express.Router();
 
 module.exports = function(app) {
   var links = [{
-      title: 'Home',
+      title: 'Web Store',
       href: '/'
     }, {
       title: 'About',
@@ -22,12 +22,8 @@ module.exports = function(app) {
 
   /* GET home page. */
   router.get('/', function(req, res, next) {
-    var title = 'Home';
-
-    setActiveNavTo(title);
-
     res.render('index', { 
-      title: title,
+      title: 'Web Store',
       links: links
     });
   });
