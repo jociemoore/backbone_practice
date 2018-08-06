@@ -1,0 +1,111 @@
+@import url('reset.css');
+
+html, body {
+	background: #00585E;
+}
+
+body {
+	font: normal 14px 'Roboto Condensed', sans-serif;
+}
+
+main {
+	max-width: 800px;
+	padding: 20px;
+	margin: 0 auto;
+	background: #F5F2DC;
+}
+
+h1 {
+	padding: 0 0 0.6em 0;
+	font-size: 2.2em;
+	color: #454445;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h3 {
+	font-size: 1.2em;
+}
+
+#albums li {
+	display: inline-block;
+	width: 25%;
+	padding: 0 20px 20px 0;
+	vertical-align: top
+}
+
+#albums img {
+	display: block;
+	width: 100%;
+	margin: 0 0 10px 0;
+}
+
+#albums a {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+}
+
+#tracksModal a.close {
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	z-index: 1;
+	color: #FF5729;
+}
+
+#tracksModal {
+	display: none;
+	position: fixed;
+	top: 25px;
+	bottom: 25px;
+	left: 25px;
+	right: 25px;
+	padding: 25px;
+	z-index: 10;
+	background: #F5F2DC;
+}
+
+#tracksModal img {
+	float: left;
+	width: 80px;
+	margin: 0 10px 10px 0;
+}
+
+#tracksModal h2 {
+	padding: 0 0 10px 0;
+}
+
+#tracksModal h3 { 
+	padding: 0 0 5px 0;
+}
+
+#tracksModal ol {
+	clear: both;
+	list-style: decimal inside;
+}
+
+#tracksModal li {
+	padding: 7px 0;
+}
+
+#tracksModal li {
+	border-top: 1px solid #FF5729;
+}
+
+#tracksModal small {
+	float: right;
+}
+
+#overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 9;
+	background: rgba(0, 0, 0, 0.6);
+}

@@ -1,0 +1,21 @@
+{
+  "name": "music_collections",
+  "version": "1.0.0",
+  "description": "Music collections application",
+  "main": "app.js",
+  "scripts": {
+    "start": "npx nodemon app.js",
+    "test": "./node_modules/jasmine-node/bin/jasmine-node spec --autotest --color --watch ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "grunt": "^1.0.2",
+    "grunt-bower-concat": "^1.0.0",
+    "grunt-contrib-uglify": "^3.3.0",
+    "jasmine-node": "^1.14.5",
+    "node-static": "^0.7.10",
+    "nodemon": "^1.17.3",
+    "request": "^2.85.0"
+  }
+}
